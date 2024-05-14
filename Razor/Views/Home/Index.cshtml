@@ -1,8 +1,137 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Html
+@{
     ViewData["Title"] = "Home Page";
+
+    // Snack 1 
+    string nome = "Anatoliy";
+    string cognome = "Zakhryapin";
+
+    // Snack 2
+    // string printSum(int n)
+    // {
+    //     int sum = 0;
+    //     for (int i = 1; i <= n; i++)
+    //     {
+    //         sum += i;
+    //     }
+    //     return $"<span>{sum}</span>";
+    // }
+
+    HtmlString printSum(int n)
+    {
+        int sum = 0;
+        for (int i = 1; i <= n; i++)
+        {
+            sum += i;
+        }
+        return new HtmlString($"<span>{sum}</span>");
+    }
+
+    // Snack 3 
+    int countHowManyTimesRepeated(char a)
+    {
+        // int count = 0;
+        string stringToControll = "nel mezzo del cammin di nostra vita";
+
+        // foreach (char b in stringToControll)
+        // {
+        //     if (Char.ToUpper(b) == Char.ToUpper(a))
+        //     {
+        //         count++;
+        //     }
+        // }
+        // return count;
+
+        return stringToControll.Count(c => char.ToLower(c) == char.ToLower(a));
+    };
+
+    // Snack 4
+    List<int> casualNumbersList = createCasualNumberList(20, 1, 90);
+
+    List<int> filteredNumbersList = FiltrNumbersList(casualNumbersList, 20, 70);
+
+    List<int> createCasualNumberList(int quantity, int min, int max)
+    {
+        List<int> casualNumbersList = new ();
+        Random random = new Random();
+        for (int i = 0; i < quantity; i++)
+            casualNumbersList.Add(random.Next(min, max + 1));
+
+        return casualNumbersList;
+    }
+
+    List<int> FiltrNumbersList(List<int> numbersList, int min, int max)
+    {
+        List<int> filteredNumbersList = new List<int>();
+
+        foreach (int number in numbersList)
+        {
+            if (number >= min && number <= max)
+            {
+                filteredNumbersList.Add(number);
+            }
+        }
+        return filteredNumbersList;
+    }
+
+    // Snack 5
+    DateTime now = DateTime.Now;
+    string formattedDateTime = now.ToString("yyyy-MM-dd HH:mm:ss");
+
+    // Sanck 6
+    DateTime sevenDayAgo = now.AddDays(-7);
+    string todayIs = now.ToString("dddd", new System.Globalization.CultureInfo("it-IT"));
+    DateTime afterOneYear = now.AddYears(1);
+    string dayAfterOneYear = afterOneYear.ToString("dddd", new System.Globalization.CultureInfo("it-IT"));
 }
 
+
+
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+    @* Snack 1  *@
+    <h2>@nome @cognome</h2>
+
+    @* Snack 2  *@
+    @* @Html.Raw(printSum(3)) *@
+    @printSum(3)
+
+    @* Snack 3  *@
+    <h2>Quante volte la lettera a è presente nalla frase "nel mezzo del cammin di nostra vita" </h2>
+    <p>Risposta: @countHowManyTimesRepeated('A')</p>
+
+    @* Snack 4  *@
+    <div class="row">
+        <div class="col-6">
+            <h4>Stampiamo la lista di numeri random compresi tra 1 e 90</h4>
+            <ul class="list-group">
+                @foreach (int number in casualNumbersList)
+                {
+                    <li class="list-group-item">@number</li>
+                }
+            </ul>
+        </div>
+        <div class="col-6">
+            <h4>Stampiamo i numeri della lista di sinistra con numeri compresi tra 20 e 70</h4>
+            <ul class="list-group">
+                @foreach (int number in filteredNumbersList)
+                {
+                    <li class="list-group-item">@number</li>
+                }
+            </ul>
+        </div>
+    </div>
+
+    @* Snack 5 *@
+    <h2>Data attuale è: @formattedDateTime</h2>
+
+    @* Snack 6 *@
+    <h2>Data di 7 giorni fa:</h2>
+    <p>@sevenDayAgo.ToString("yyyy-MM-dd")</p>
+
+    <h2>Giorno della settimana oggi:</h2>
+    <p>@todayIs</p>
+
+    <h2>Giorno della settimana tra un anno:</h2>
+    <p>@dayAfterOneYear</p>
 </div>
