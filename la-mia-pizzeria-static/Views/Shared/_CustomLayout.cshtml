@@ -10,9 +10,10 @@
 </head>
 <body>
     <div class="app d-flex flex-column">
-        <header class= "border-bottom text-center">
-            <h1>Header della pagina</h1>
+        <header class= "">
+            @Html.Partial("_Header")
         </header>
+
         <main role="main" class="pb-3">
            @RenderBody()
         </main>
